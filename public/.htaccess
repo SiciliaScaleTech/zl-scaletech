@@ -1,0 +1,86 @@
+# =====================================================================
+# Z&L ScaleTech : configuration Apache (o2switch)
+# Copié à la racine de public_html avec le contenu de /dist.
+# =====================================================================
+
+Options -Indexes -MultiViews
+ServerSignature Off
+DirectoryIndex index.html
+AddDefaultCharset UTF-8
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+
+	# --- HTTPS forcé et domaine canonique sans www -----------------------
+	RewriteCond %{HTTPS} off [OR]
+	RewriteCond %{HTTP_HOST} ^www\. [NC]
+	RewriteRule ^ https://zl-scaletech.fr%{REQUEST_URI} [R=301,L]
+
+	# --- Méthodes HTTP : seules GET, HEAD et POST sont utiles -------------
+	RewriteCond %{REQUEST_METHOD} !^(GET|HEAD|POST)$ [NC]
+	RewriteRule ^ - [R=405,L]
+
+	# POST accepté uniquement sur le script du formulaire.
+	RewriteCond %{REQUEST_METHOD} =POST
+	RewriteRule !^php/contact\.php$ - [R=405,L]
+
+	# --- Aucun script PHP exécutable hors du formulaire de contact --------
+	# (défense en profondeur : un fichier .php déposé ailleurs ne s'exécute pas)
+	RewriteCond %{REQUEST_URI} \.(php\d?|phtml|phar|cgi|pl|py|sh)$ [NC]
+	RewriteRule !^php/contact\.php$ - [F,L]
+
+	# --- Fichiers et dossiers cachés (.git, .env…) inaccessibles ----------
+	RewriteRule (^|/)\.(?!well-known/) - [F,L]
+</IfModule>
+
+# --- Fichiers sensibles : sauvegardes, journaux, configurations --------
+<FilesMatch "\.(bak|backup|old|orig|save|swp|tmp|log|sql|sqlite|db|ini|conf|env|key|pem|yml|yaml|lock|md|ts|mjs|map)$|~$">
+	Require all denied
+</FilesMatch>
+
+# --- En-têtes de sécurité ---------------------------------------------
+<IfModule mod_headers.c>
+	# CSP stricte : tout le CSS et le JS sont servis en fichiers depuis le site
+	# (aucun script ni style inline, voir astro.config.mjs). Aucune ressource externe.
+	Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; manifest-src 'self'; worker-src 'none'; upgrade-insecure-requests"
+	Header always set X-Frame-Options "DENY"
+	Header always set X-Content-Type-Options "nosniff"
+	Header always set Referrer-Policy "strict-origin-when-cross-origin"
+	Header always set Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+	Header always set Cross-Origin-Opener-Policy "same-origin"
+	Header always set Cross-Origin-Resource-Policy "same-origin"
+	Header always set X-Permitted-Cross-Domain-Policies "none"
+	# HSTS : le navigateur n'utilise plus que HTTPS pendant 1 an (envoyé uniquement en HTTPS).
+	Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" "expr=%{HTTPS} == 'on'"
+	Header always unset X-Powered-By
+	Header unset X-Powered-By
+</IfModule>
+
+# --- Compression ------------------------------------------------------
+<IfModule mod_deflate.c>
+	AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+# --- Cache navigateur -------------------------------------------------
+<IfModule mod_expires.c>
+	ExpiresActive On
+	ExpiresDefault "access plus 1 hour"
+	ExpiresByType text/html "access plus 0 seconds"
+	ExpiresByType text/css "access plus 1 year"
+	ExpiresByType application/javascript "access plus 1 year"
+	ExpiresByType font/woff2 "access plus 1 year"
+	ExpiresByType image/webp "access plus 1 month"
+	ExpiresByType image/png "access plus 1 month"
+	ExpiresByType image/avif "access plus 1 month"
+</IfModule>
+
+<IfModule mod_headers.c>
+	# Fichiers versionnés par Astro (nom contenant un hash) : cache permanent.
+	<If "%{REQUEST_URI} =~ m#^/_astro/#">
+		Header set Cache-Control "public, max-age=31536000, immutable"
+	</If>
+	<FilesMatch "\.html$">
+		Header set Cache-Control "no-cache"
+	</FilesMatch>
+</IfModule>

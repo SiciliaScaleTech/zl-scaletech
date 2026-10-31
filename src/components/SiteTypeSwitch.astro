@@ -1,0 +1,21 @@
+---
+/**
+ * Switch Vitrine / E-commerce, sans JavaScript.
+ * À placer dans un conteneur `.site-type-scope` : les éléments marqués
+ * `data-site="vitrine"` ou `data-site="e-commerce"` s'affichent selon le choix
+ * (règles CSS `:has()` dans global.css).
+ */
+interface Props { name: string; }
+const { name } = Astro.props;
+---
+<fieldset class="site-switch">
+	<legend class="sr-only">Type de site</legend>
+	<label>
+		<input type="radio" name={name} value="vitrine" checked />
+		<span>Site vitrine</span>
+	</label>
+	<label>
+		<input type="radio" name={name} value="e-commerce" />
+		<span>E-commerce</span>
+	</label>
+</fieldset>

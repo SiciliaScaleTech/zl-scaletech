@@ -1,0 +1,1 @@
+Les offres seront ajoutees apres validation de la structure.

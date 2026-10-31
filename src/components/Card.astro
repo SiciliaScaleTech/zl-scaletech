@@ -1,0 +1,6 @@
+---
+interface Props { tone?: 'light' | 'night'; [key: `data-${string}`]: string | undefined; }
+// Les attributs data-* (ex. data-site pour le switch Vitrine / E-commerce) sont transmis à l'article.
+const { tone = 'light', ...attrs } = Astro.props;
+---
+<article class={`card card--${tone}`} {...attrs}><slot /></article>

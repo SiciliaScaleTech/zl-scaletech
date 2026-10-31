@@ -1,0 +1,214 @@
+/* En-tête, navigation et sous-menu Offres */
+
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	background: rgb(253 251 247 / 0.88);
+	backdrop-filter: blur(0.6rem);
+	border-bottom: 1px solid rgb(74 25 66 / 0.08);
+}
+
+.header-inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.5rem;
+	min-height: 5.125rem;
+}
+
+.brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.7rem;
+	text-decoration: none;
+	color: var(--color-night);
+	font-weight: 600;
+}
+
+.brand picture,
+.brand img {
+	display: block;
+	width: 3.25rem;
+	height: 3.25rem;
+	border-radius: 50%;
+}
+
+.brand img {
+	object-fit: contain;
+	background: var(--color-white);
+	box-shadow: var(--shadow-soft);
+}
+
+.brand-wordmark {
+	font-family: 'Fraunces', serif;
+	font-size: 1.2rem;
+	line-height: 1.1;
+	letter-spacing: -0.04em;
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.12em;
+	white-space: nowrap;
+}
+
+.brand-wordmark-prefix {
+	font-weight: 600;
+	color: var(--color-night);
+}
+
+.brand-wordmark strong {
+	font-weight: 600;
+	color: var(--color-violet);
+	letter-spacing: -0.03em;
+}
+
+.main-nav {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
+.main-nav a {
+	padding: 0.75rem 0.9rem;
+	border-radius: 999px;
+	color: var(--color-muted);
+	font-size: 0.95rem;
+	font-weight: 500;
+	transition: color 180ms ease, background-color 180ms ease;
+}
+
+.main-nav a:hover,
+.main-nav a:focus-visible,
+.main-nav a.active {
+	color: var(--color-night);
+	background: rgb(91 26 160 / 0.08);
+}
+
+/*
+ * Sous-menu « Offres ».
+ * Écrans avec souris : ouvert au survol ou quand un de ses liens a le focus clavier.
+ * Écrans tactiles : ouvert / fermé au toucher via le bouton <details> (.nav-dropdown__toggle).
+ */
+.nav-dropdown { position: relative; }
+.nav-dropdown__chevron { display: inline-block; margin-left: 0.2rem; vertical-align: 0.05em; transition: transform 180ms ease; }
+
+/* Bouton tactile : même apparence qu'un lien du menu, masqué sur les écrans avec souris. */
+.nav-dropdown__toggle { display: none; }
+.nav-dropdown__toggle summary {
+	display: inline-block;
+	padding: 0.75rem 0.9rem;
+	border-radius: 999px;
+	color: var(--color-muted);
+	font-size: 0.95rem;
+	font-weight: 500;
+	list-style: none;
+	cursor: pointer;
+	transition: color 180ms ease, background-color 180ms ease;
+}
+.nav-dropdown__toggle summary::-webkit-details-marker { display: none; }
+.nav-dropdown__toggle summary:focus-visible,
+.nav-dropdown__toggle[open] summary,
+.nav-dropdown__toggle summary.active {
+	color: var(--color-night);
+	background: rgb(91 26 160 / 0.08);
+}
+.nav-dropdown__toggle summary.active { font-weight: bolder; text-decoration: underline; }
+
+.nav-dropdown__menu {
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	z-index: 30;
+	min-width: 16rem;
+	margin: 0;
+	/* Le padding haut sert de « pont » pour ne pas perdre le survol entre le lien et le menu. */
+	padding: 0.6rem 0 0;
+	list-style: none;
+	opacity: 0;
+	visibility: hidden;
+	transform: translate(-50%, 0.25rem);
+	transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
+}
+
+/* Ouverture au survol / focus : uniquement sur les écrans avec souris (sinon le
+   « survol » reste collé après un toucher et le menu ne se refermerait plus). */
+@media (hover: hover) {
+	.nav-dropdown:hover .nav-dropdown__chevron,
+	.nav-dropdown:focus-within .nav-dropdown__chevron { transform: rotate(180deg); }
+
+	.nav-dropdown:hover .nav-dropdown__menu,
+	.nav-dropdown:focus-within .nav-dropdown__menu {
+		opacity: 1;
+		visibility: visible;
+		transform: translate(-50%, 0);
+	}
+}
+
+.nav-dropdown__menu li { background: var(--color-white); }
+.nav-dropdown__menu li:first-child { padding-top: 0.4rem; border-radius: var(--radius-md) var(--radius-md) 0 0; }
+.nav-dropdown__menu li:last-child { padding-bottom: 0.4rem; border-radius: 0 0 var(--radius-md) var(--radius-md); box-shadow: var(--shadow-soft); }
+.nav-dropdown__menu li { border-inline: 1px solid rgb(74 25 66 / 0.12); }
+.nav-dropdown__menu li:first-child { border-top: 1px solid rgb(74 25 66 / 0.12); }
+.nav-dropdown__menu li:last-child { border-bottom: 1px solid rgb(74 25 66 / 0.12); }
+
+.main-nav .nav-dropdown__menu a {
+	display: grid;
+	gap: 0.15rem;
+	margin: 0 0.4rem;
+	padding: 0.65rem 0.8rem;
+	border-radius: var(--radius-sm);
+	text-decoration: none;
+}
+
+.nav-dropdown__menu strong { color: var(--color-night); font-weight: 600; }
+.nav-dropdown__menu span { color: var(--color-muted); font-size: 0.85rem; font-weight: 400; }
+
+/* Écrans tactiles : le bouton <details> remplace le lien et ouvre le menu au toucher. */
+@media (hover: none) {
+	.nav-dropdown > .header-link { display: none; }
+	.nav-dropdown__toggle { display: block; }
+
+	.nav-dropdown:has(.nav-dropdown__toggle[open]) .nav-dropdown__menu {
+		opacity: 1;
+		visibility: visible;
+		transform: translate(-50%, 0);
+	}
+	.nav-dropdown__toggle[open] .nav-dropdown__chevron { transform: rotate(180deg); }
+}
+
+.header-cta {
+	white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+	.header-inner {
+		flex-wrap: wrap;
+		justify-content: center;
+		padding: 0.8rem 0 1rem;
+	}
+	.main-nav {
+		width: 100%;
+		gap: 0.15rem;
+	}
+	/* Liens resserrés pour garder les 4 entrées du menu sur une seule ligne. */
+	.main-nav a,
+	.nav-dropdown__toggle summary {
+		padding: 0.6rem 0.55rem;
+		font-size: 0.875rem;
+	}
+	.header-cta {
+		width: 100%;
+	}
+}
+
+/* Lien de navigation (composant HeaderLink) */
+.header-link {
+	display: inline-block;
+	text-decoration: none;
+}
+.header-link.active {
+	font-weight: bolder;
+	text-decoration: underline;
+}

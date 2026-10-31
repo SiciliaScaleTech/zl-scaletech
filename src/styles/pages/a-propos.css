@@ -1,0 +1,127 @@
+/* Page À propos */
+
+.about-chapter {
+	display: grid;
+	grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+	gap: clamp(2rem, 6vw, 5rem);
+	align-items: start;
+}
+
+.about-chapter__head { display: grid; gap: 1rem; }
+.about-intro h1 { max-width: 12ch; font-size: clamp(1.875rem, 4.25vw, 3.25rem); }
+
+.about-chapter__title {
+	display: flex;
+	align-items: baseline;
+	gap: 0.75rem;
+	font-size: clamp(1.5rem, 2.6vw, 2rem);
+}
+
+.about-number {
+	color: var(--color-violet);
+	font-family: 'Inter', sans-serif;
+	font-size: 0.9rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+}
+
+.section--night .about-number { color: var(--color-gold); }
+
+.about-chapter__body { display: grid; gap: 1rem; font-size: 1.125rem; }
+.about-chapter__body .about-chapter__title { margin-bottom: 0.25rem; }
+.about-chapter__body p { color: var(--color-muted); }
+
+.about-highlight {
+	padding-left: 1.25rem;
+	border-left: 0.3rem solid var(--color-violet);
+	color: var(--color-night) !important;
+	font-family: 'Fraunces', serif;
+	font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+	line-height: 1.35;
+}
+
+.about-dragon__layout {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: clamp(2rem, 6vw, 5rem);
+	align-items: center;
+}
+
+.about-dragon__medallion img {
+	display: block;
+	width: clamp(12rem, 24vw, 20rem);
+	height: auto;
+	border-radius: 50%;
+	background: var(--color-white);
+	box-shadow: 0 0 0 0.5rem rgb(224 180 76 / 0.25), var(--shadow-deep);
+}
+
+.about-dragon__text { display: grid; gap: 1.25rem; font-size: 1.125rem; }
+.about-dragon__text p { color: #e6dfee; }
+
+.about-dragon__keys { display: grid; gap: 0.75rem; margin: 0; padding: 0; list-style: none; }
+.about-dragon__keys li {
+	padding: 1rem 1.25rem;
+	border: 1px solid rgb(255 255 255 / 0.14);
+	border-left: 0.3rem solid var(--color-gold);
+	border-radius: var(--radius-sm);
+	background: rgb(255 255 255 / 0.04);
+	color: #e6dfee;
+}
+.about-dragon__keys strong { color: var(--color-white); }
+
+.about-values__intro { margin-top: 0.75rem; font-size: 1.125rem; }
+
+.values-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 1rem;
+	margin: clamp(2rem, 4vw, 3rem) 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* Cartes en forme d'écaille : coin inférieur arrondi en pointe douce. */
+.value-card {
+	display: grid;
+	align-content: start;
+	gap: 0.75rem;
+	padding: clamp(1.25rem, 2vw, 1.75rem);
+	border: 1px solid rgb(74 25 66 / 0.15);
+	border-top: 0.3rem solid var(--color-gold);
+	border-radius: var(--radius-md) var(--radius-md) 50% 50% / var(--radius-md) var(--radius-md) 1.75rem 1.75rem;
+	background: var(--color-white);
+	box-shadow: var(--shadow-soft);
+}
+
+.value-card__number { color: var(--color-violet); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; }
+.value-card h3 { font-size: 1.5rem; }
+.value-card p { color: var(--color-muted); }
+
+.about-vision__inner { display: grid; justify-items: center; gap: 1.5rem; text-align: center; }
+.about-vision blockquote { margin: 0; }
+.about-vision blockquote p {
+	max-width: 22ch;
+	font-family: 'Fraunces', serif;
+	font-size: clamp(1.75rem, 3.75vw, 2.75rem);
+	font-weight: 600;
+	line-height: 1.1;
+}
+.about-vision__text { max-width: 36rem; color: var(--color-muted); font-size: 1.125rem; }
+
+.about-cta__inner { display: grid; justify-items: start; gap: 1.25rem; max-width: 44rem; }
+.about-cta__inner p { color: #e6dfee; font-size: 1.125rem; }
+.about-cta__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; }
+.about-cta .button--light { color: var(--color-violet); }
+.about-cta__link { color: var(--color-white); font-weight: 600; }
+.about-cta__link:focus-visible { outline-color: var(--color-gold); }
+
+@media (max-width: 900px) {
+	.about-chapter, .about-dragon__layout { grid-template-columns: 1fr; }
+	.values-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+	.about-intro h1, .about-vision blockquote p { max-width: none; }
+	.values-grid { grid-template-columns: 1fr; }
+}

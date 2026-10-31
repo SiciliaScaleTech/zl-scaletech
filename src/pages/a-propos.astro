@@ -1,0 +1,128 @@
+---
+import Button from '../components/Button.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+// Les quatre « écailles » de l'agence : ses valeurs.
+const values = [
+	{ name: 'Honnêteté', text: "Je vous dis ce qui est faisable, ce qui ne l'est pas, et ce que ça coûte." },
+	{ name: 'Franchise', text: "J'ai l'habitude d'aller droit au but, sans détours ni jargon inutile." },
+	{ name: 'Solutions', text: 'Face à un problème, je cherche toujours une solution et je ne vous laisse pas avec un « c’est compliqué ».' },
+	{ name: 'Présence', text: "Un site livré n'est qu'un début : le suivi fait partie du travail." },
+];
+---
+
+<SiteLayout
+	title="À propos : une agence web à vos côtés | Z&L ScaleTech"
+	description="Sicilia Michelet dirige Z&L ScaleTech : des sites qui rapportent des clients, sécurisés et suivis après la mise en ligne. Découvrez notre histoire et nos valeurs."
+>
+	<main>
+		<!-- Chapitre 1 : qui je suis -->
+		<section class="section about-intro">
+			<div class="site-container about-chapter">
+				<div class="about-chapter__head">
+					<p class="eyebrow">À propos</p>
+					<h1>Votre site, sous bonne garde.</h1>
+				</div>
+				<div class="about-chapter__body">
+					<h2 class="about-chapter__title"><span class="about-number" aria-hidden="true">01</span> Qui je suis</h2>
+					<p>
+						Je m'appelle Sicilia Michelet, je dirige Z&amp;L ScaleTech. Mon parcours n'a rien de linéaire : l'équitation,
+						puis la vente dans le bâtiment, puis la création de sites web, après un déclic venu d'un jeu vidéo.
+					</p>
+					<p>
+						Ce que j'en retiens : je connais le terrain commercial, je sais ce qu'un entrepreneur attend de son site,
+						et je sais que ça doit lui rapporter des clients, pas juste faire joli.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Chapitre 2 : pourquoi l'agence -->
+		<section class="section section--sand">
+			<div class="site-container about-chapter">
+				<div class="about-chapter__head">
+					<h2 class="about-chapter__title"><span class="about-number" aria-hidden="true">02</span> Pourquoi j'ai créé l'agence</h2>
+				</div>
+				<div class="about-chapter__body">
+					<p>
+						Deux raisons. D'abord, avoir du temps pour mes enfants. Ensuite, et surtout, permettre à des entrepreneurs
+						d'avoir un site qui leur rapporte des clients.
+					</p>
+					<p class="about-highlight">
+						Trop de sites sont livrés puis oubliés, endormis depuis des siècles. Le mien travaille pour vous,
+						et je reste là après la mise en ligne.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Chapitre 3 : le dragon et « Scale » -->
+		<section class="section section--night about-dragon">
+			<div class="site-container about-dragon__layout">
+				<picture class="about-dragon__medallion">
+					<source type="image/webp" srcset="/assets/brand/logo-medallion.webp 1x, /assets/brand/logo-medallion@2x.webp 2x" />
+					<img
+						src="/assets/brand/logo-medallion.png"
+						srcset="/assets/brand/logo-medallion.png 1x, /assets/brand/logo-medallion@2x.png 2x"
+						width="320"
+						height="320"
+						loading="lazy"
+						alt="Le dragon aubergine, emblème de Z&L ScaleTech"
+					/>
+				</picture>
+				<div class="about-dragon__text">
+					<h2 class="about-chapter__title"><span class="about-number" aria-hidden="true">03</span> Le dragon et « Scale »</h2>
+					<p>
+						J'ai toujours aimé les dragons. Je voulais un symbole qui parle aussi à mes clients : un dragon, c'est de la
+						robustesse et de la protection. Il veille sur son trésor, ici votre site et votre activité.
+					</p>
+					<ul class="about-dragon__keys">
+						<li><strong>Les écailles</strong> forment une armure : c'est la sécurité.</li>
+						<li><strong>« Scale »</strong>, c'est aussi la croissance : votre site grandit avec votre entreprise.</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- Chapitre 4 : les valeurs, présentées comme des écailles -->
+		<section class="section about-values">
+			<div class="site-container">
+				<h2 class="about-chapter__title"><span class="about-number" aria-hidden="true">04</span> Mes valeurs</h2>
+				<p class="about-values__intro muted">Quatre écailles, une seule armure.</p>
+				<ul class="values-grid">
+					{values.map((value, index) => (
+						<li class="value-card">
+							<span class="value-card__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+							<h3>{value.name}</h3>
+							<p>{value.text}</p>
+						</li>
+					))}
+				</ul>
+			</div>
+		</section>
+
+		<!-- Chapitre 5 : la vision -->
+		<section class="section section--sand about-vision">
+			<div class="site-container about-vision__inner">
+				<h2 class="about-chapter__title"><span class="about-number" aria-hidden="true">05</span> Ma vision</h2>
+				<blockquote>
+					<p>Que mes clients se consacrent à leur métier, l'esprit tranquille.</p>
+				</blockquote>
+				<p class="about-vision__text">
+					Même en cas de cyberattaque, ils savent que mon équipe est là pour réagir et les accompagner.
+				</p>
+			</div>
+		</section>
+
+		<section class="section section--night about-cta">
+			<div class="site-container about-cta__inner">
+				<h2>On en parle&nbsp;?</h2>
+				<p>Racontez-moi votre projet : je vous dis franchement ce qui est faisable, et ce que ça coûte.</p>
+				<div class="about-cta__actions">
+					<Button variant="light" href="/contact">Demander un devis <span aria-hidden="true">&rarr;</span></Button>
+					<a class="about-cta__link" href="/offres">Voir les offres</a>
+				</div>
+			</div>
+		</section>
+	</main>
+</SiteLayout>

@@ -1,0 +1,11 @@
+---
+import Button from '../../../components/Button.astro';
+import ContactStatus from '../../../components/ContactStatus.astro';
+---
+<ContactStatus title="Demande envoyée | Z&L ScaleTech" eyebrow="Demande envoyée" heading="Merci, votre message est bien arrivé.">
+	<p>Nous revenons vers vous rapidement pour échanger sur votre projet. Votre devis est gratuit et sans engagement.</p>
+	<Fragment slot="actions">
+		<Button href="/">Retour à l'accueil</Button>
+		<Button variant="secondary" href="/offres">Voir nos offres</Button>
+	</Fragment>
+</ContactStatus>

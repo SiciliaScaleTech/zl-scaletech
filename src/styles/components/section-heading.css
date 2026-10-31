@@ -1,0 +1,4 @@
+/* Titre de section (composant SectionHeading) */
+
+.section-heading { display: grid; gap: 1rem; max-width: 46rem; }
+.section-heading__intro { max-width: 38rem; font-size: 1.125rem; }

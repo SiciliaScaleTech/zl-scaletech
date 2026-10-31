@@ -1,0 +1,37 @@
+/* Boutons */
+
+/* Boutons « pilule » posés directement en HTML (ex. CTA de l’en-tête, envoi du formulaire). */
+.button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	border: 0;
+	border-radius: 999px;
+	padding: 0.82rem 1.3rem;
+	font-weight: 600;
+	text-decoration: none;
+	transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.button:hover,
+.button:focus-visible {
+	transform: translateY(-1px);
+}
+
+.button--primary {
+	background: linear-gradient(135deg, var(--color-violet), var(--color-aubergine));
+	color: var(--color-white);
+	box-shadow: var(--shadow-soft);
+}
+
+
+/* Composant Button.astro (classe button--component). */
+.button.button--component { display: inline-flex; align-items: center; justify-content: center; min-height: 3rem; padding: 0.75rem 1.25rem; border: 2px solid transparent; border-radius: var(--radius-sm); font: 600 0.9375rem/1 'Inter', sans-serif; text-decoration: none; transition: transform 180ms ease, background-color 180ms ease, color 180ms ease; }
+.button.button--component:hover { transform: translateY(-2px); }
+.button--component.button--primary { background: var(--color-violet); color: var(--color-white); }
+.button--component.button--primary:hover { background: var(--color-violet-dark); }
+.button--component.button--secondary { border-color: var(--color-aubergine); color: var(--color-aubergine); }
+.button--component.button--secondary:hover { background: var(--color-aubergine); color: var(--color-white); }
+.button--component.button--light { background: var(--color-white); color: var(--color-night); }
+.button--component.button--light:hover { background: var(--color-sand); }

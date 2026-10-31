@@ -1,0 +1,70 @@
+---
+/**
+ * Partenaire sécurité : Z&L CyberConsulting.
+ * - variant « full » : bandeau de l'accueil (fond nuit) ;
+ * - variant « reminder » : rappel compact (page Maintenance, fond clair).
+ * Cadre du partenariat : une vérification est incluse au départ ; aucun service cyber
+ * n'est inclus dans la maintenance ; une intervention est facturée par Z&L CyberConsulting.
+ * Le partenaire est mis en avant pour la réactivité en cas de faille.
+ */
+interface Props { variant?: 'full' | 'reminder'; }
+const { variant = 'full' } = Astro.props;
+
+const PARTNER_URL = 'https://zl-cyberconsulting.fr';
+const expertises = [
+	{ title: 'Vérifié au départ', text: 'Un premier contrôle, inclus, pour voir si votre site est bien protégé.' },
+	{ title: 'Plus de réactivité', text: 'En cas de faille, un spécialiste de la cybersécurité est déjà identifié.' },
+	{ title: 'En cas d’attaque', text: 'L’intervention est facturée directement par Z&L CyberConsulting.' },
+];
+---
+
+{variant === 'full' ? (
+	<div class="partner" id="partenaire-securite">
+		<a class="partner__logo" href={PARTNER_URL} target="_blank" rel="noopener noreferrer">
+			<img
+				src="/assets/partenaires/zl-cyberconsulting.webp"
+				srcset="/assets/partenaires/zl-cyberconsulting.webp 1x, /assets/partenaires/zl-cyberconsulting@2x.webp 2x"
+				alt="Z&L CyberConsulting (ouvre son site dans un nouvel onglet)"
+				width="220"
+				height="244"
+				loading="lazy"
+			/>
+		</a>
+		<div class="partner__content">
+			<p class="eyebrow">Partenaire sécurité</p>
+			<h3 class="partner__title">Un spécialiste de la cybersécurité à portée de main.</h3>
+			<p class="partner__text">
+				Nous travaillons avec Z&amp;L&nbsp;CyberConsulting, entreprise française spécialisée en cybersécurité
+				et en protection des données depuis 2022, pour réagir plus vite en cas de faille.
+			</p>
+			<ul class="partner__points">
+				{expertises.map((item) => (
+					<li><strong>{item.title}</strong><span>{item.text}</span></li>
+				))}
+			</ul>
+			<p class="partner__note">Les services de cybersécurité ne sont pas inclus dans nos formules de maintenance.</p>
+			<a class="partner__link" href={PARTNER_URL} target="_blank" rel="noopener noreferrer">
+				Découvrir Z&amp;L&nbsp;CyberConsulting <span aria-hidden="true">&rarr;</span>
+			</a>
+		</div>
+	</div>
+) : (
+	<aside class="partner-reminder" aria-label="Partenaire sécurité">
+		<img
+			class="partner-reminder__logo"
+			src="/assets/partenaires/zl-cyberconsulting.webp"
+			srcset="/assets/partenaires/zl-cyberconsulting.webp 1x, /assets/partenaires/zl-cyberconsulting@2x.webp 2x"
+			alt="Z&L CyberConsulting"
+			width="220"
+			height="244"
+			loading="lazy"
+		/>
+		<p>
+			<strong>Un partenaire cybersécurité pour réagir plus vite : Z&amp;L&nbsp;CyberConsulting.</strong>
+			Ses services ne sont pas inclus dans la maintenance : en cas d'attaque, l'intervention est facturée directement par cette entreprise.
+		</p>
+		<a class="partner-reminder__link" href={PARTNER_URL} target="_blank" rel="noopener noreferrer">
+			Découvrir <span class="sr-only">Z&amp;L&nbsp;CyberConsulting (nouvel onglet)</span><span aria-hidden="true">&rarr;</span>
+		</a>
+	</aside>
+)}

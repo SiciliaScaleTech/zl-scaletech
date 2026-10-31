@@ -1,0 +1,159 @@
+---
+/**
+ * Configurateur de maintenance en trois étapes : type de site, formule, facturation.
+ * Le récapitulatif est rendu côté serveur pour la combinaison par défaut,
+ * puis mis à jour en direct par un script vanilla qui lit les données JSON intégrées.
+ */
+import { FORMULAS, MAINTENANCE_PLANS, PERIODS, SITE_TYPES, planKey } from '../data/maintenance';
+import { safeJson } from '../utils/safe-json';
+
+const defaults = { site: 'vitrine', formula: 'serenite', period: 'mensuel' } as const;
+const plan = MAINTENANCE_PLANS[planKey(defaults.site, defaults.formula, defaults.period)];
+const siteLabel = SITE_TYPES.find((s) => s.id === defaults.site)?.label;
+---
+
+<div class="mc" data-configurator>
+	<script is:inline type="application/json" data-plans set:html={safeJson(MAINTENANCE_PLANS)} />
+
+	<form class="mc-steps" aria-label="Configurer votre maintenance">
+		<fieldset class="mc-step">
+			<legend><span class="mc-step__number" aria-hidden="true">1</span> Votre site</legend>
+			<div class="mc-choices mc-choices--two">
+				{SITE_TYPES.map((site) => (
+					<label class="mc-choice">
+						<input type="radio" name="site" value={site.id} checked={site.id === defaults.site} />
+						<span class="mc-choice__body"><span class="mc-choice__label">{site.label}</span></span>
+					</label>
+				))}
+			</div>
+		</fieldset>
+
+		<fieldset class="mc-step">
+			<legend><span class="mc-step__number" aria-hidden="true">2</span> Formule</legend>
+			<div class="mc-choices mc-choices--two">
+				{FORMULAS.map((formula) => (
+					<label class="mc-choice">
+						<input type="radio" name="formula" value={formula.id} checked={formula.id === defaults.formula} />
+						<span class="mc-choice__body">
+							<span class="mc-choice__label">{formula.label}</span>
+							<span class="mc-choice__hint">{formula.tagline}</span>
+						</span>
+					</label>
+				))}
+			</div>
+		</fieldset>
+
+		<fieldset class="mc-step" data-period-step>
+			<legend><span class="mc-step__number" aria-hidden="true">3</span> Facturation</legend>
+			<div class="mc-choices mc-choices--three">
+				{PERIODS.map((period) => (
+					<label class="mc-choice">
+						<input type="radio" name="period" value={period.id} checked={period.id === defaults.period} />
+						<span class="mc-choice__body">
+							<span class="mc-choice__label">{period.label}</span>
+							{period.badge && <span class="mc-badge">{period.badge}</span>}
+						</span>
+					</label>
+				))}
+			</div>
+			<p class="mc-step__note" data-period-note hidden>La formule Starter est facturée au mois, sans engagement.</p>
+		</fieldset>
+	</form>
+
+	<aside class="mc-summary" aria-labelledby="mc-summary-title">
+		<p class="eyebrow">Récapitulatif</p>
+		<h2 class="mc-summary__title" id="mc-summary-title" data-field="title">{plan.title}</h2>
+		<p class="mc-summary__site" data-field="site">{siteLabel}</p>
+
+		<div class="mc-summary__price">
+			<strong data-field="price">{plan.price}</strong>
+			<span data-field="unit">{plan.unit}</span>
+		</div>
+		<p class="mc-summary__monthly" data-field="monthly" hidden={!plan.monthly}>{plan.monthly}</p>
+		<div class="mc-summary__saving" data-saving hidden={!plan.saving}>
+			<span class="mc-badge mc-badge--gold" data-field="badge">{plan.badge}</span>
+			<span data-field="saving">{plan.saving}</span>
+		</div>
+		<p class="mc-summary__engagement" data-field="engagement">{plan.engagement}</p>
+
+		<p class="mc-summary__heading">Inclus</p>
+		<ul class="mc-list mc-list--included" data-list="included">
+			{plan.included.map((item) => <li>{item}</li>)}
+		</ul>
+		<div data-excluded-block hidden={plan.excluded.length === 0}>
+			<p class="mc-summary__heading">Non inclus</p>
+			<ul class="mc-list mc-list--excluded" data-list="excluded">
+				{plan.excluded.map((item) => <li>{item}</li>)}
+			</ul>
+		</div>
+		<ul class="mc-conditions" data-list="conditions" hidden={plan.conditions.length === 0}>
+			{plan.conditions.map((item) => <li>{item}</li>)}
+		</ul>
+
+		<a class="button button--light mc-summary__cta" data-cta href={`/contact?maintenance=${plan.key}`}>Demander cette formule</a>
+		<p class="mc-summary__more">Un besoin hors forfait ? <a href="#sur-demande">Voir le pack Sur demande</a></p>
+
+		<!-- Annonce courte pour les lecteurs d'écran à chaque changement. -->
+		<p class="sr-only" aria-live="polite" data-announce></p>
+	</aside>
+</div>
+
+<script>
+	import type { MaintenancePlan } from '../data/maintenance';
+
+	const root = document.querySelector<HTMLElement>('[data-configurator]');
+	const dataEl = root?.querySelector('[data-plans]');
+
+	if (root && dataEl?.textContent) {
+		const plans: Record<string, MaintenancePlan> = JSON.parse(dataEl.textContent);
+		const form = root.querySelector('form')!;
+		const periodStep = root.querySelector<HTMLFieldSetElement>('[data-period-step]')!;
+		const periodNote = root.querySelector<HTMLElement>('[data-period-note]')!;
+		const field = (name: string) => root.querySelector<HTMLElement>(`[data-field="${name}"]`)!;
+		const list = (name: string) => root.querySelector<HTMLUListElement>(`[data-list="${name}"]`)!;
+
+		const fillList = (el: HTMLUListElement, items: string[]) => {
+			el.replaceChildren(...items.map((text) => Object.assign(document.createElement('li'), { textContent: text })));
+			el.hidden = items.length === 0;
+		};
+
+		const update = () => {
+			// Lecture directe des boutons cochés : FormData ignore ceux d'un fieldset désactivé,
+			// ce qui faisait perdre la période au retour sur Sérénité.
+			const checked = (name: string) => form.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)?.value ?? '';
+			const site = checked('site');
+			const formula = checked('formula');
+			const period = checked('period');
+			const isStarter = formula === 'starter';
+
+			// Le Starter n'existe qu'en mensuel : l'étape 3 est désactivée sans perdre le choix précédent.
+			periodStep.disabled = isStarter;
+			periodNote.hidden = !isStarter;
+
+			const key = isStarter ? `${site}-starter` : `${site}-serenite-${period}`;
+			const plan = plans[key];
+			if (!plan) return;
+
+			const siteLabel = form.querySelector<HTMLInputElement>(`input[name="site"][value="${site}"]`)?.closest('label')?.textContent?.trim() ?? '';
+			field('title').textContent = plan.title;
+			field('site').textContent = siteLabel;
+			field('price').textContent = plan.price;
+			field('unit').textContent = plan.unit;
+			field('monthly').textContent = plan.monthly ?? '';
+			field('monthly').hidden = !plan.monthly;
+			field('badge').textContent = plan.badge ?? '';
+			field('saving').textContent = plan.saving ?? '';
+			root.querySelector<HTMLElement>('[data-saving]')!.hidden = !plan.saving;
+			field('engagement').textContent = plan.engagement;
+			fillList(list('included'), plan.included);
+			fillList(list('excluded'), plan.excluded);
+			root.querySelector<HTMLElement>('[data-excluded-block]')!.hidden = plan.excluded.length === 0;
+			fillList(list('conditions'), plan.conditions);
+			root.querySelector<HTMLAnchorElement>('[data-cta]')!.href = `/contact?maintenance=${plan.key}`;
+			root.querySelector<HTMLElement>('[data-announce]')!.textContent = `${plan.title}, ${siteLabel} : ${plan.price} ${plan.unit}.`;
+		};
+
+		form.addEventListener('change', update);
+		update();
+	}
+</script>

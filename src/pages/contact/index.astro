@@ -1,0 +1,122 @@
+---
+import { PROJECT_TYPES } from '../../data/contact';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+const typesWithOffers = PROJECT_TYPES.filter((type) => type.offers.length > 0);
+const steps = [
+	'Vous nous décrivez votre projet en quelques lignes.',
+	'Nous échangeons avec vous pour bien comprendre votre métier et vos besoins.',
+	'Vous recevez un devis clair, adapté à votre activité.',
+];
+---
+
+<SiteLayout
+	title="Contact et demande de devis | Z&L ScaleTech"
+	description="Demandez un devis gratuit et sans engagement pour la création de votre site vitrine, e-commerce ou sur mesure, ou pour la maintenance de votre site WordPress."
+>
+	<main>
+		<section class="section contact-page">
+			<div class="site-container contact-layout">
+				<div class="contact-intro">
+					<p class="eyebrow">Contact</p>
+					<h1>Parlons de votre projet.</h1>
+					<p class="contact-intro__text muted">
+						Décrivez-nous votre métier et votre besoin en quelques lignes : nous revenons vers vous pour en discuter et vous proposer une solution adaptée.
+					</p>
+					<p class="contact-promise"><span aria-hidden="true">✓</span> Devis gratuit et sans engagement</p>
+
+					<h2 class="contact-steps__title">Comment ça se passe&nbsp;?</h2>
+					<ol class="contact-steps">
+						{steps.map((step) => <li>{step}</li>)}
+					</ol>
+				</div>
+
+				<form class="contact-form" action="/php/contact.php" method="post">
+					<p class="contact-form__note">Les champs marqués d'un <span aria-hidden="true">*</span><span class="sr-only">astérisque</span> sont obligatoires.</p>
+
+					<fieldset class="form-group">
+						<legend>Votre projet <span aria-hidden="true">*</span></legend>
+						<div class="type-choices">
+							{PROJECT_TYPES.map((type) => (
+								<label class="type-choice">
+									<input type="radio" name="type" value={type.id} required />
+									<span>{type.label}</span>
+								</label>
+							))}
+						</div>
+					</fieldset>
+
+					{/* Une liste d'offres par type de projet : seule celle du type coché s'affiche (CSS :has()). */}
+					{typesWithOffers.map((type) => (
+						<div class="form-field offer-field" data-type={type.id}>
+							<label for={`offre-${type.id}`}>Offre souhaitée <span class="optional">(facultatif)</span></label>
+							<select id={`offre-${type.id}`} name={`offre_${type.id}`}>
+								<option value="">Je ne sais pas encore</option>
+								{type.offers.map((offer) => <option value={offer.value}>{offer.label}</option>)}
+							</select>
+						</div>
+					))}
+
+					<div class="form-row">
+						<div class="form-field">
+							<label for="nom">Nom et prénom <span aria-hidden="true">*</span></label>
+							<input id="nom" name="nom" type="text" autocomplete="name" required minlength="2" maxlength="100" />
+						</div>
+						<div class="form-field">
+							<label for="email">E-mail <span aria-hidden="true">*</span></label>
+							<input id="email" name="email" type="email" autocomplete="email" required maxlength="190" />
+						</div>
+					</div>
+
+					<div class="form-field">
+						<label for="telephone">Téléphone <span class="optional">(facultatif)</span></label>
+						<input id="telephone" name="telephone" type="tel" autocomplete="tel" maxlength="30" pattern="[0-9+().\s\-]{6,30}" />
+					</div>
+
+					<div class="form-field">
+						<label for="message">Votre message <span aria-hidden="true">*</span></label>
+						<textarea id="message" name="message" rows="6" required minlength="10" maxlength="5000"></textarea>
+					</div>
+
+					{/* Pot de miel anti-spam : invisible pour les humains, rempli par les robots. */}
+					<div class="hp-field" aria-hidden="true">
+						<label for="website">Ne pas remplir ce champ</label>
+						<input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+					</div>
+
+					<label class="consent">
+						<input type="checkbox" name="consentement" value="oui" required />
+						<span>
+							J'accepte que mes données soient utilisées pour répondre à ma demande.
+							Voir notre <a href="/politique-de-confidentialite">politique de confidentialité</a>. <span aria-hidden="true">*</span>
+						</span>
+					</label>
+
+					<button class="button button--primary contact-submit" type="submit">Envoyer ma demande</button>
+				</form>
+			</div>
+		</section>
+	</main>
+</SiteLayout>
+
+<script>
+	// Présélection depuis les liens du site : ?offre=essentiel-vitrine (page /offres)
+	// ou ?maintenance=vitrine-serenite-annuel (configurateur de maintenance).
+	const form = document.querySelector<HTMLFormElement>('.contact-form');
+	const params = new URLSearchParams(window.location.search);
+
+	const preselect = (type: string, offer?: string | null) => {
+		const radio = form?.querySelector<HTMLInputElement>(`input[name="type"][value="${CSS.escape(type)}"]`);
+		if (!radio) return;
+		radio.checked = true;
+		const select = form?.querySelector<HTMLSelectElement>(`select[name="offre_${CSS.escape(type)}"]`);
+		if (select && offer && [...select.options].some((option) => option.value === offer)) select.value = offer;
+	};
+
+	const maintenance = params.get('maintenance');
+	const offer = params.get('offre');
+	if (maintenance) preselect('maintenance', maintenance);
+	else if (offer?.startsWith('sur-mesure')) preselect('sur-mesure');
+	else if (offer?.endsWith('-e-commerce')) preselect('e-commerce', offer);
+	else if (offer?.endsWith('-vitrine')) preselect('vitrine', offer);
+</script>

@@ -1,0 +1,53 @@
+---
+import '../styles/global.css';
+import { SITE_TITLE } from '../consts';
+import { safeJson } from '../utils/safe-json';
+
+interface Props { title: string; description: string; noindex?: boolean; }
+const { title, description, noindex = false } = Astro.props;
+const siteURL = Astro.site ?? Astro.url;
+const canonicalURL = new URL(Astro.url.pathname, siteURL);
+const ogImageURL = new URL('/assets/brand/logo-medallion@2x.png', siteURL);
+
+// Données structurées Organization (schema.org), communes à toutes les pages.
+const organizationSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'Organization',
+	name: SITE_TITLE,
+	url: new URL('/', siteURL).toString(),
+	logo: ogImageURL.toString(),
+	email: 's.michelet@zl-scaletech.fr',
+	slogan: 'Votre site, sous bonne garde.',
+	description: 'Création de sites internet vitrine, e-commerce et sur mesure, avec maintenance et accompagnement après la livraison.',
+	areaServed: { '@type': 'Country', name: 'France' },
+	address: {
+		'@type': 'PostalAddress',
+		streetAddress: 'Lot G, 41 B rue de la Ferté-Alais',
+		postalCode: '91720',
+		addressLocality: 'Maisse',
+		addressCountry: 'FR',
+	},
+};
+---
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#4a1942" />
+<link rel="icon" type="image/png" sizes="128x128" href="/assets/brand/favicon.png" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<meta name="generator" content={Astro.generator} />
+<link rel="canonical" href={canonicalURL} />
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="fr_FR" />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageURL.toString()} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageURL.toString()} />
+<script is:inline type="application/ld+json" set:html={safeJson(organizationSchema)} />

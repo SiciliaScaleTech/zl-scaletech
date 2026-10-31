@@ -1,0 +1,36 @@
+/* Switch Vitrine / E-commerce (composant SiteTypeSwitch) */
+
+/* Switch Vitrine / E-commerce (composant SiteTypeSwitch), sans JS. */
+.site-switch {
+	display: inline-flex;
+	gap: 0.25rem;
+	margin: 0;
+	padding: 0.3rem;
+	border: 1px solid rgb(74 25 66 / 0.14);
+	border-radius: 999px;
+	background: var(--color-white);
+	box-shadow: var(--shadow-soft);
+}
+
+.site-switch label { position: relative; cursor: pointer; }
+.site-switch input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: inherit; }
+.site-switch span {
+	display: block;
+	padding: 0.6rem 1.2rem;
+	border-radius: 999px;
+	color: var(--color-muted);
+	font-weight: 600;
+	font-size: 0.95rem;
+	transition: background-color 180ms ease, color 180ms ease;
+}
+.site-switch label:hover span { color: var(--color-night); }
+.site-switch input:checked + span { background: var(--color-violet); color: var(--color-white); }
+.site-switch input:focus-visible + span { outline: 3px solid var(--color-aubergine); outline-offset: 2px; }
+
+.site-type-scope:has(.site-switch input[value="e-commerce"]:checked) [data-site="vitrine"],
+.site-type-scope:has(.site-switch input[value="vitrine"]:checked) [data-site="e-commerce"] { display: none; }
+
+/* Navigateurs sans :has() : affichage vitrine uniquement, switch masqué. */
+@supports not selector(:has(*)) {
+	.site-switch, [data-site="e-commerce"] { display: none; }
+}

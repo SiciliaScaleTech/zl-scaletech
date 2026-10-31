@@ -1,0 +1,26 @@
+/*
+ * Point d'entrée unique des styles du site, importé par BaseHead.astro.
+ * Ordre : base -> composants -> pages (les règles des pages priment).
+ */
+
+@import 'tailwindcss';
+
+@import './base/fonts.css';
+@import './base/tokens.css';
+@import './base/base.css';
+@import './components/header.css';
+@import './components/footer.css';
+@import './components/button.css';
+@import './components/card.css';
+@import './components/section-heading.css';
+@import './components/site-switch.css';
+@import './components/configurator.css';
+@import './components/partner.css';
+@import './components/status-page.css';
+@import './pages/accueil.css';
+@import './pages/offres.css';
+@import './pages/maintenance.css';
+@import './pages/contact.css';
+@import './pages/a-propos.css';
+@import './pages/legal.css';
+@import './pages/apercu-composants.css';

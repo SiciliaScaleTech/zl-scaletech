@@ -1,0 +1,41 @@
+---
+/**
+ * Page légale : texte Markdown (src/content/legal) avec sommaire latéral
+ * généré à partir des titres de niveau 2.
+ */
+import { getEntry, render } from 'astro:content';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+interface Props { id: 'mentions-legales' | 'cgv' | 'politique-de-confidentialite'; }
+const entry = await getEntry('legal', Astro.props.id);
+if (!entry) throw new Error(`Page légale introuvable : ${Astro.props.id}`);
+const { Content, headings } = await render(entry);
+const toc = headings.filter((heading) => heading.depth === 2);
+---
+
+<SiteLayout title={`${entry.data.title} | Z&L ScaleTech`} description={entry.data.description}>
+	<main>
+		<section class="section legal">
+			<div class="site-container">
+				<header class="legal__header">
+					<p class="eyebrow">Informations légales</p>
+					<h1>{entry.data.title}</h1>
+					<p class="muted">Dernière mise à jour : {entry.data.updated}</p>
+				</header>
+
+				<div class="legal__layout">
+					<nav class="legal__toc" aria-label="Sommaire">
+						<p class="legal__toc-title">Sommaire</p>
+						<ol>
+							{toc.map((heading) => <li><a href={`#${heading.slug}`}>{heading.text}</a></li>)}
+						</ol>
+					</nav>
+
+					<article class="legal__content">
+						<Content />
+					</article>
+				</div>
+			</div>
+		</section>
+	</main>
+</SiteLayout>

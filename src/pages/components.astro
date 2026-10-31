@@ -1,0 +1,67 @@
+---
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+import Section from '../components/Section.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+	<SiteLayout title="Aperçu du système | Z&L ScaleTech" description="Aperçu des tokens et composants Atelier des écailles." noindex>
+	<header class="preview-header">
+		<div class="site-container preview-header__inner">
+			<picture>
+				<source type="image/webp" srcset="/assets/brand/logo-medallion.webp 1x, /assets/brand/logo-medallion@2x.webp 2x" />
+				<img src="/assets/brand/logo-medallion.png" srcset="/assets/brand/logo-medallion.png 1x, /assets/brand/logo-medallion@2x.png 2x" width="512" height="512" alt="Z&L ScaleTech" />
+			</picture>
+			<span>Prévisualisation du système visuel</span>
+		</div>
+	</header>
+
+	<main>
+		<Section tone="light">
+			<div class="preview-hero">
+				<div class="preview-hero__copy">
+					<p class="eyebrow">Direction A · Atelier des écailles</p>
+					<h1>Des sites qui grandissent avec votre activité.</h1>
+					<p class="muted">Un aperçu volontairement contenu : les tokens, le rythme, les contrastes et les composants avant la construction du layout.</p>
+					<div class="preview-actions"><Button href="#components">Découvrir les composants</Button><Button variant="secondary">Action secondaire</Button></div>
+				</div>
+				<div class="preview-hero__visual">
+					<picture>
+						<source type="image/webp" srcset="/assets/brand/logo-medallion.webp 1x, /assets/brand/logo-medallion@2x.webp 2x" />
+						<img src="/assets/brand/logo-medallion.png" srcset="/assets/brand/logo-medallion.png 1x, /assets/brand/logo-medallion@2x.png 2x" width="512" height="512" alt="Emblème dragon Z&L ScaleTech" />
+					</picture>
+				</div>
+			</div>
+		</Section>
+
+		<Section tone="sand">
+			<SectionHeading eyebrow="Rythme et hiérarchie" title="Une interface claire, avec des moments de relief." intro="Le blanc chaud porte les contenus de travail. Le crème sable crée des respirations. Le nuit intervient sur les prises de parole fortes et les appels à l’action importants." />
+			<div class="swatches" aria-label="Palette de couleurs">
+				<div class="swatch swatch--cream"><strong>Blanc chaud</strong><span>#FDFBF7</span></div>
+				<div class="swatch swatch--sand"><strong>Crème sable</strong><span>#F6F1E7</span></div>
+				<div class="swatch swatch--aubergine"><strong>Aubergine</strong><span>#4A1942</span></div>
+				<div class="swatch swatch--night"><strong>Nuit</strong><span>#0E0020</span></div>
+				<div class="swatch swatch--violet"><strong>Violet action</strong><span>#5B1AA0</span></div>
+				<div class="swatch swatch--gold"><strong>Or décoratif</strong><span>#E0B44C</span></div>
+			</div>
+		</Section>
+
+		<Section tone="night">
+			<SectionHeading eyebrow="Composants" title="Des blocs sobres, pensés pour être assemblés." intro="Le doré reste réservé aux détails décoratifs, aux focus et aux repères sur fond sombre. Il ne porte jamais un texte sur fond clair." />
+			<div id="components" class="component-grid">
+				<Card tone="night"><p class="eyebrow">Carte de service</p><h3>Un accompagnement qui reste présent.</h3><p class="muted">Rayon moyen, espace généreux, contraste net et contenu facilement scannable.</p></Card>
+				<Card><p class="eyebrow">Carte claire</p><h3>Un socle lisible.</h3><p class="muted">La surface blanche est réservée aux informations qui doivent être comparées ou relues.</p></Card>
+			</div>
+			<div class="contrast-list">
+				<strong>Contrastes vérifiés</strong>
+				<span>Nuit / blanc chaud : 19,55:1 · Gris / blanc chaud : 7,05:1 · Violet / crème sable : 8,88:1 · Nuit / crème sable : 17,95:1</span>
+				<span>Or / nuit : 19,24:1 · Blanc / nuit : 44,31:1 · Blanc / violet : 5,91:1 · Nuit / blanc : 44,31:1 · Gris / blanc : 7,93:1 · Blanc / aubergine : 16,70:1 · Or / aubergine : 7,25:1</span>
+			</div>
+		</Section>
+
+		<Section tone="light">
+			<div class="type-sample"><p class="eyebrow">Typographie</p><h2>Fraunces pour la voix. Inter pour la clarté.</h2><p class="muted">Fraunces 600 est réservé aux titres. Inter 400, 500 et 600 couvre le texte courant, les labels et les actions.</p></div>
+		</Section>
+	</main>
+</SiteLayout>

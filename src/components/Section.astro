@@ -1,0 +1,5 @@
+---
+interface Props { tone?: 'light' | 'sand' | 'night'; }
+const { tone = 'light' } = Astro.props;
+---
+<section class={`section section--${tone}`}><div class="site-container"><slot /></div></section>

@@ -1,0 +1,5 @@
+/* Cartes (composant Card) */
+
+.card { min-height: 12rem; padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-soft); }
+.card--light { background: var(--color-white); }
+.card--night { background: var(--color-aubergine); color: var(--color-white); box-shadow: none; }

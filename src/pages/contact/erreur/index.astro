@@ -1,0 +1,10 @@
+---
+import Button from '../../../components/Button.astro';
+import ContactStatus from '../../../components/ContactStatus.astro';
+---
+<ContactStatus title="Envoi impossible | Z&L ScaleTech" eyebrow="Envoi impossible" heading="Votre message n'a pas pu être envoyé.">
+	<p>Un champ est peut-être incomplet, ou trop de demandes ont été envoyées en peu de temps. Vérifiez vos informations et réessayez dans quelques minutes.</p>
+	<Fragment slot="actions">
+		<Button href="/contact">Revenir au formulaire</Button>
+	</Fragment>
+</ContactStatus>

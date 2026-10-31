@@ -1,0 +1,1 @@
+Le configurateur de maintenance et les switchs de tarifs seront ajoutés ici.

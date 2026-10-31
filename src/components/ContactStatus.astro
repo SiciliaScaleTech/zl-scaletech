@@ -1,0 +1,21 @@
+---
+/** Page de statut non indexée : retours du formulaire de contact et page 404. */
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+interface Props { title: string; eyebrow: string; heading: string; description?: string; }
+const { title, eyebrow, heading, description = 'Formulaire de contact Z&L ScaleTech.' } = Astro.props;
+---
+<SiteLayout title={title} description={description} noindex>
+	<main>
+		<section class="section contact-status">
+			<div class="site-container contact-status__inner">
+				<p class="eyebrow">{eyebrow}</p>
+				<h1>{heading}</h1>
+				<div class="contact-status__text muted"><slot /></div>
+				<div class="contact-status__actions">
+					<slot name="actions" />
+				</div>
+			</div>
+		</section>
+	</main>
+</SiteLayout>

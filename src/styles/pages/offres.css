@@ -1,0 +1,148 @@
+/* Page Offres */
+
+.offers-page__intro { display: grid; justify-items: start; gap: 1.25rem; }
+.offers-page__intro h1 { max-width: 20ch; font-size: clamp(1.875rem, 4.25vw, 3.25rem); }
+.offers-page__text { max-width: 42rem; font-size: 1.125rem; }
+
+.pricing-grid {
+	scroll-margin-top: 7rem;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 1rem;
+	align-items: stretch;
+	margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+/* En mode e-commerce, l'offre Sur mesure est masquée : 3 colonnes. */
+.site-type-scope:has(.site-switch input[value="e-commerce"]:checked) .pricing-grid {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pricing-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	padding: clamp(1.25rem, 2vw, 1.75rem);
+	/* Bordure légère pour détacher les cartes du fond crème. */
+	border: 1px solid rgb(74 25 66 / 0.15);
+	border-top: 0.3rem solid var(--color-violet);
+	border-radius: var(--radius-md);
+	background: var(--color-white);
+	box-shadow: var(--shadow-soft);
+	scroll-margin-top: 7rem;
+}
+
+.pricing-card--featured { outline: 2px solid var(--color-violet); outline-offset: -2px; }
+
+.pricing-card--night {
+	border-color: var(--color-night);
+	border-top-color: var(--color-gold);
+	background: var(--color-night);
+	color: var(--color-white);
+}
+
+.pricing-badge {
+	position: absolute;
+	top: -0.85rem;
+	right: 1.25rem;
+	padding: 0.25rem 0.75rem;
+	border-radius: 999px;
+	background: var(--color-violet);
+	color: var(--color-white);
+	font-size: 0.75rem;
+	font-weight: 600;
+}
+
+.pricing-label {
+	color: var(--color-violet);
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.pricing-card h2 { font-size: clamp(1.4rem, 2vw, 1.75rem); line-height: 1.1; }
+
+.pricing-condition {
+	padding: 0.5rem 0.75rem;
+	border-radius: var(--radius-sm);
+	background: var(--color-sand);
+	color: var(--color-aubergine);
+	font-size: 0.85rem;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+.pricing-body { display: flex; flex: 1; flex-direction: column; gap: 0.75rem; }
+
+.pricing-price {
+	margin-top: 0.25rem;
+	font-family: 'Fraunces', serif;
+	font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+	font-weight: 600;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+.pricing-delay { color: var(--color-muted); font-size: 0.9rem; }
+
+.pricing-list {
+	display: grid;
+	gap: 0.5rem;
+	margin: 0.5rem 0 0;
+	padding: 0.9rem 0 0;
+	border-top: 1px solid rgb(74 25 66 / 0.12);
+	list-style: none;
+}
+
+.pricing-list li { position: relative; padding-left: 1.4rem; font-size: 0.9rem; line-height: 1.45; }
+.pricing-list li::before { content: '✓'; position: absolute; left: 0; color: var(--color-violet); font-weight: 600; }
+
+.pricing-note { color: var(--color-muted); font-size: 0.85rem; font-style: italic; }
+
+.pricing-body .button { margin-top: auto; }
+
+.pricing-maintenance { color: var(--color-violet); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.pricing-maintenance:hover { text-decoration: underline; }
+
+.pricing-card--night .pricing-label,
+.pricing-card--night .pricing-list li::before { color: var(--color-gold); }
+.pricing-card--night .pricing-delay { color: #e6dfee; }
+.pricing-card--night .pricing-list { border-top-color: rgb(255 255 255 / 0.16); }
+.pricing-card--night .pricing-maintenance { color: var(--color-gold); }
+.pricing-card--night .button--light { color: var(--color-violet); }
+.pricing-card--night :focus-visible { outline-color: var(--color-gold); }
+
+.terms-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 1rem;
+	margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.terms-block {
+	padding: 1.5rem;
+	border-radius: var(--radius-md);
+	background: var(--color-white);
+}
+
+.terms-block h3 { font-size: 1.25rem; }
+.terms-block ul { display: grid; gap: 0.5rem; margin: 0.9rem 0 0; padding-left: 1.1rem; font-size: 0.95rem; }
+
+.offers-cta__inner { display: grid; justify-items: start; gap: 1.25rem; max-width: 44rem; }
+.offers-cta__inner p { color: #e6dfee; font-size: 1.125rem; }
+.offers-cta .button--light { color: var(--color-violet); }
+
+@media (max-width: 1100px) {
+	.pricing-grid,
+	.site-type-scope:has(.site-switch input[value="e-commerce"]:checked) .pricing-grid,
+	.terms-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+	.offers-page__intro h1 { max-width: none; }
+	.pricing-grid,
+	.site-type-scope:has(.site-switch input[value="e-commerce"]:checked) .pricing-grid,
+	.terms-grid { grid-template-columns: 1fr; }
+}

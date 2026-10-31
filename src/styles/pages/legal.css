@@ -1,0 +1,58 @@
+/* Pages légales (composant LegalPage) */
+
+.legal__header { display: grid; gap: 1rem; max-width: 44rem; }
+.legal__header h1 { font-size: clamp(1.875rem, 4.25vw, 3rem); }
+
+.legal__layout {
+	display: grid;
+	grid-template-columns: minmax(13rem, 17rem) minmax(0, 46rem);
+	gap: clamp(2rem, 5vw, 4.5rem);
+	align-items: start;
+	margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.legal__toc {
+	position: sticky;
+	top: 7rem;
+	max-height: calc(100vh - 8rem);
+	overflow-y: auto;
+	padding: 1.25rem;
+	border: 1px solid rgb(74 25 66 / 0.15);
+	border-radius: var(--radius-md);
+	background: var(--color-white);
+}
+
+.legal__toc-title { margin-bottom: 0.75rem; color: var(--color-violet); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.legal__toc ol { display: grid; gap: 0.35rem; margin: 0; padding-left: 1.5rem; font-size: 0.9rem; list-style: decimal; }
+.legal__toc li::marker { color: var(--color-violet); font-weight: 600; }
+.legal__toc a { color: var(--color-muted); text-decoration: none; }
+.legal__toc a:hover { color: var(--color-violet); text-decoration: underline; }
+
+/* Texte rendu depuis le Markdown (paragraphes, liens, listes générés). */
+.legal__content { counter-reset: legal; }
+.legal__content h2 {
+	margin: 2.5rem 0 1rem;
+	font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+	scroll-margin-top: 7rem;
+	counter-increment: legal;
+}
+.legal__content h2::before { content: counter(legal) '. '; color: var(--color-violet); }
+.legal__content h2:first-child { margin-top: 0; }
+.legal__content p,
+.legal__content li { color: var(--color-muted); line-height: 1.7; }
+.legal__content p + p { margin-top: 1rem; }
+.legal__content strong { color: var(--color-night); }
+.legal__content ul { display: grid; gap: 0.4rem; margin: 1rem 0; padding-left: 1.25rem; list-style: disc; }
+.legal__content li::marker { color: var(--color-violet); }
+.legal__content a { color: var(--color-violet); font-weight: 600; }
+
+.legal__content table { width: 100%; margin: 1rem 0; border-collapse: collapse; font-size: 0.95rem; }
+.legal__content th,
+.legal__content td { padding: 0.75rem; border-bottom: 1px solid rgb(74 25 66 / 0.15); text-align: left; vertical-align: top; }
+.legal__content th { color: var(--color-night); background: var(--color-sand); }
+.legal__content td { color: var(--color-muted); }
+
+@media (max-width: 900px) {
+	.legal__layout { grid-template-columns: 1fr; }
+	.legal__toc { position: static; max-height: none; }
+}

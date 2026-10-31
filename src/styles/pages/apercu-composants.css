@@ -1,0 +1,38 @@
+/* Aperçu interne des composants (/components) */
+
+.preview-header { padding: 1rem 0; border-bottom: 1px solid rgb(74 25 66 / 0.12); background: var(--color-cream); }
+.preview-header__inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--color-muted); font-size: 0.875rem; }
+.preview-header picture { display: block; width: 4rem; height: 4rem; }
+.preview-header img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.preview-hero { display: grid; align-items: center; grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.7fr); gap: clamp(2rem, 7vw, 6rem); min-height: 32rem; }
+.preview-hero__copy { display: grid; gap: 1.5rem; max-width: 38rem; }
+.preview-hero__copy h1 { max-width: 12ch; }
+.preview-hero__copy > p:not(.eyebrow) { max-width: 34rem; font-size: 1.125rem; }
+.preview-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.preview-hero__visual { display: grid; place-items: center; min-height: 26rem; overflow: hidden; border-radius: var(--radius-lg); background: var(--color-sand); }
+.preview-hero__visual picture { display: block; width: min(100%, 30rem); }
+.preview-hero__visual img { display: block; width: 100%; height: auto; object-fit: contain; }
+.swatches { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.75rem; margin-top: 3rem; }
+.swatch { display: grid; align-content: end; min-height: 8rem; padding: 1rem; border-radius: var(--radius-sm); color: var(--color-night); }
+.swatch span { font-size: 0.75rem; }
+.swatch--cream { background: var(--color-cream); border: 1px solid rgb(14 0 32 / 0.12); }
+.swatch--sand { background: var(--color-sand); border: 1px solid rgb(74 25 66 / 0.28); }
+.swatch--aubergine, .swatch--night, .swatch--violet { color: var(--color-white); }
+.swatch--aubergine { background: var(--color-aubergine); }
+.swatch--night { background: var(--color-night); }
+.swatch--violet { background: var(--color-violet); }
+.swatch--gold { background: var(--color-gold); }
+.component-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 3rem; }
+.component-grid .card { display: grid; align-content: start; gap: 1rem; }
+.component-grid .card--night h3 { margin-bottom: 0.5rem; }
+.contrast-list { display: grid; gap: 0.25rem; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgb(255 255 255 / 0.2); color: #e6dfee; font-size: 0.875rem; }
+.contrast-list strong { color: var(--color-gold); }
+.type-sample { display: grid; gap: 1rem; max-width: 48rem; }
+.type-sample h2 { max-width: 14ch; }
+@media (max-width: 760px) {
+	.preview-header__inner { align-items: flex-start; flex-direction: column; }
+	.preview-hero { grid-template-columns: 1fr; }
+	.preview-hero__visual { min-height: 18rem; }
+	.swatches { grid-template-columns: repeat(2, 1fr); }
+	.component-grid { grid-template-columns: 1fr; }
+}

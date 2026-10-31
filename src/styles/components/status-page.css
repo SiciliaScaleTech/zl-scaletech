@@ -1,0 +1,7 @@
+/* Pages de statut : merci, erreur, 404 (composant ContactStatus) */
+
+.contact-status { min-height: 50vh; }
+.contact-status__inner { display: grid; justify-items: start; gap: 1.25rem; max-width: 44rem; }
+.contact-status h1 { font-size: clamp(1.875rem, 4.25vw, 3rem); }
+.contact-status__text { font-size: 1.125rem; }
+.contact-status__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }

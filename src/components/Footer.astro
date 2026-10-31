@@ -1,0 +1,47 @@
+---
+const today = new Date();
+---
+
+<footer class="site-footer">
+	<div class="site-container footer-grid">
+		<div class="footer-brand">
+			<a class="brand" href="/" aria-label="Retour à l'accueil">
+				<picture>
+					<source type="image/webp" srcset="/assets/brand/logo-medallion.webp 1x, /assets/brand/logo-medallion@2x.webp 2x" />
+					<img src="/assets/brand/logo-medallion.png" srcset="/assets/brand/logo-medallion.png 1x, /assets/brand/logo-medallion@2x.png 2x" width="52" height="52" alt="Z&L ScaleTech" />
+				</picture>
+				<span class="brand-wordmark"><span class="brand-wordmark-prefix">Z&amp;L</span> <strong>ScaleTech</strong></span>
+			</a>
+			<p class="footer-intro">Une agence aux côtés des artisans et des PME pour concevoir un site fiable, rapide et pensé pour leur activité.</p>
+		</div>
+
+		<div>
+			<h3>Navigation</h3>
+			<ul class="footer-links-list">
+				<li><a href="/">Accueil</a></li>
+				<li><a href="/offres">Offres</a></li>
+				<li><a href="/a-propos">À propos</a></li>
+				<li><a href="/contact">Contact</a></li>
+			</ul>
+		</div>
+
+		<div>
+			<h3>Services</h3>
+			<ul class="footer-links-list">
+				<li><a href="/offres#offres-grille">Site vitrine</a></li>
+				<li><a href="/offres#offres-grille">E-commerce</a></li>
+				<li><a href="/offres#sur-mesure">Site sur mesure</a></li>
+				<li><a href="/maintenance">Maintenance</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="site-container footer-bottom">
+		<p>&copy; {today.getFullYear()} Z&amp;L ScaleTech. Tous droits réservés.</p>
+		<div class="footer-meta-links">
+			<a href="/mentions-legales">Mentions légales</a>
+			<a href="/politique-de-confidentialite">Confidentialité</a>
+			<a href="/cgv">CGV</a>
+		</div>
+	</div>
+</footer>

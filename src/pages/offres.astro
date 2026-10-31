@@ -1,0 +1,92 @@
+---
+import Button from '../components/Button.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import SiteTypeSwitch from '../components/SiteTypeSwitch.astro';
+import { OFFERS, OFFER_TERMS, offerPrice, type SiteType } from '../data/offres';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+const terms = [
+	{ title: 'À fournir de votre côté', items: OFFER_TERMS.provide },
+	{ title: 'Déroulement', items: OFFER_TERMS.process },
+	{ title: 'Paiement', items: OFFER_TERMS.payment },
+	{ title: 'Non inclus', items: OFFER_TERMS.excluded },
+];
+---
+
+<SiteLayout
+	title="Création de site internet vitrine et e-commerce | Z&L ScaleTech"
+	description="Création de site internet WordPress vitrine ou e-commerce, ou site sur mesure : des offres claires dès 600 € HT pour les PME et entreprises artisanales, avec un accompagnement après la livraison."
+>
+	<main>
+		<section class="section offers-page">
+			<div class="site-container site-type-scope">
+				<div class="offers-page__intro">
+					<p class="eyebrow">Création de site internet</p>
+					<h1>Un site pensé pour votre métier, à chaque étape.</h1>
+					<p class="offers-page__text muted">
+						Vitrine ou boutique en ligne, chaque offre comprend la conception, la mise en ligne et un mois de support.
+						Tous les tarifs sont indiqués hors taxes.
+					</p>
+					<SiteTypeSwitch name="offres-type" />
+				</div>
+
+				<div class="pricing-grid" id="offres-grille">
+					{OFFERS.map((offer) => (
+						<article
+							class:list={['pricing-card', { 'pricing-card--featured': offer.featured, 'pricing-card--night': offer.only }]}
+							id={offer.id}
+							data-site={offer.only}
+						>
+							{offer.featured && <span class="pricing-badge">Conseillé</span>}
+							<p class="pricing-label">{offer.label}</p>
+							<h2>{offer.name}</h2>
+
+							{(Object.entries(offer.variants) as [SiteType, NonNullable<(typeof offer.variants)[SiteType]>][]).map(([type, variant]) => (
+								<div class="pricing-body" data-site={offer.only ? undefined : type}>
+									<p class="pricing-price">{offerPrice(variant)}</p>
+									<p class="pricing-delay">{variant.price === null ? variant.delay : `Délai estimé : ${variant.delay}`}</p>
+									{offer.condition && <p class="pricing-condition">{offer.condition}</p>}
+									<ul class="pricing-list">
+										{variant.included.map((item) => <li>{item}</li>)}
+									</ul>
+									{variant.note && <p class="pricing-note">{variant.note}</p>}
+									<Button variant={offer.only ? 'light' : 'primary'} href={`/contact?offre=${offer.id}-${type}`}>Demander un devis</Button>
+								</div>
+							))}
+
+							<a class="pricing-maintenance" href="/maintenance">Hébergement et suivi non inclus : voir la maintenance <span aria-hidden="true">&rarr;</span></a>
+						</article>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="section section--sand offers-terms">
+			<div class="site-container">
+				<SectionHeading
+					eyebrow="Bon à savoir"
+					title="Les conditions, sans petites lignes."
+					intro="Elles s'appliquent à toutes les offres, vitrine comme e-commerce."
+				/>
+				<div class="terms-grid">
+					{terms.map((block) => (
+						<div class="terms-block">
+							<h3>{block.title}</h3>
+							<ul>
+								{block.items.map((item) => <li>{item}</li>)}
+							</ul>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="section section--night offers-cta">
+			<div class="site-container offers-cta__inner">
+				<h2>Vous hésitez entre deux offres&nbsp;?</h2>
+				<p>Parlez-nous de votre métier : nous vous conseillons le format juste, sans surdimensionner.</p>
+				<Button variant="light" href="/contact">Demander un devis <span aria-hidden="true">&rarr;</span></Button>
+			</div>
+		</section>
+	</main>
+</SiteLayout>

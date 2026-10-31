@@ -1,0 +1,75 @@
+/* Partenaire sécurité Z&L CyberConsulting (composant SecurityPartner) */
+
+/* Bandeau de l'accueil, intégré en bas de la section Maintenance (fond nuit). */
+.partner {
+	display: grid;
+	grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr);
+	gap: clamp(2rem, 5vw, 4rem);
+	align-items: center;
+	margin-top: clamp(3rem, 6vw, 5rem);
+	padding-top: clamp(3rem, 6vw, 5rem);
+	border-top: 1px solid rgb(224 180 76 / 0.45);
+	scroll-margin-top: 7rem;
+}
+
+/* Bouclier du partenaire : forme et fond propres, pas de vignette autour. */
+.partner__logo { display: block; justify-self: center; width: 100%; max-width: 13.75rem; transition: transform 180ms ease; }
+.partner__logo:hover { transform: translateY(-3px); }
+.partner__logo:focus-visible { outline-color: var(--color-gold); border-radius: var(--radius-sm); }
+.partner__logo img { display: block; width: 100%; height: auto; filter: drop-shadow(0 1rem 2rem rgb(0 0 0 / 0.35)); }
+
+.partner__content { display: grid; gap: 1rem; }
+.partner__title { color: var(--color-white); font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.1; }
+.partner__text { max-width: 44rem; color: #e6dfee; font-size: 1.05rem; }
+
+.partner__points {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+	margin: 0.5rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+.partner__points li {
+	display: grid;
+	gap: 0.35rem;
+	padding: 1rem 1.1rem;
+	border: 1px solid rgb(255 255 255 / 0.14);
+	border-left: 0.3rem solid var(--color-gold);
+	border-radius: var(--radius-sm);
+	background: rgb(255 255 255 / 0.04);
+}
+.partner__points strong { color: var(--color-white); font-weight: 600; }
+.partner__points span { color: #e6dfee; font-size: 0.9rem; line-height: 1.45; }
+
+.partner__note { color: #e6dfee; font-size: 0.9rem; }
+
+.partner__link { justify-self: start; color: var(--color-gold); font-weight: 600; text-underline-offset: 0.3em; }
+.partner__link:focus-visible { outline-color: var(--color-gold); }
+
+/* Rappel compact sur la page Maintenance (fond clair). */
+.partner-reminder {
+	display: grid;
+	grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+	gap: 1.5rem;
+	align-items: center;
+	margin-top: clamp(2rem, 4vw, 3rem);
+	padding: 1.25rem 1.5rem;
+	border: 1px solid rgb(74 25 66 / 0.15);
+	border-left: 0.3rem solid var(--color-gold);
+	border-radius: var(--radius-md);
+	background: var(--color-white);
+	box-shadow: var(--shadow-soft);
+}
+.partner-reminder__logo { display: block; width: 100%; height: auto; }
+.partner-reminder p { color: var(--color-muted); }
+.partner-reminder strong { display: block; margin-bottom: 0.2rem; color: var(--color-night); }
+.partner-reminder__link { color: var(--color-violet); font-weight: 600; white-space: nowrap; text-underline-offset: 0.3em; }
+
+@media (max-width: 900px) {
+	.partner { grid-template-columns: 1fr; }
+	.partner__logo { max-width: 9rem; justify-self: start; }
+	.partner__points { grid-template-columns: 1fr; }
+	.partner-reminder { grid-template-columns: 1fr; }
+	.partner-reminder__logo { max-width: 4.5rem; }
+}

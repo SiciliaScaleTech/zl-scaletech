@@ -1,0 +1,7 @@
+# Les pages non indexées (/components/, /contact/merci/, /contact/erreur/)
+# restent explorables pour que les robots lisent leur balise noindex.
+User-agent: *
+Allow: /
+Disallow: /php/
+
+Sitemap: https://zl-scaletech.fr/sitemap-index.xml

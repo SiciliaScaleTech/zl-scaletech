@@ -1,0 +1,71 @@
+---
+import Button from '../components/Button.astro';
+import MaintenanceConfigurator from '../components/MaintenanceConfigurator.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import SecurityPartner from '../components/SecurityPartner.astro';
+import { ON_DEMAND, formatPrice } from '../data/maintenance';
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+<SiteLayout
+	title="Maintenance WordPress vitrine et e-commerce | Z&L ScaleTech"
+	description="Forfaits de maintenance WordPress pour sites vitrines et e-commerce : mises à jour, sauvegardes, sécurité, support et modifications. Dès 49 € HT par mois, sans engagement."
+>
+	<main>
+		<section class="maintenance-intro section">
+			<div class="site-container">
+				<p class="eyebrow">Maintenance WordPress</p>
+				<h1>On veille sur votre site, vous gérez votre activité.</h1>
+				<p class="maintenance-intro__text muted">
+					Mises à jour, sauvegardes, sécurité et modifications : on veille sur votre site après la mise en ligne.
+					Composez votre formule, le prix se met à jour en direct. Tous les tarifs sont indiqués hors taxes.
+				</p>
+			</div>
+		</section>
+
+		<section class="section section--sand maintenance-config" aria-label="Configurateur de maintenance">
+			<div class="site-container">
+				<MaintenanceConfigurator />
+				<noscript>
+					<p class="maintenance-noscript">Le configurateur nécessite JavaScript. Le tarif affiché correspond à la formule Sérénité mensuelle pour un site vitrine ; <a href="/contact">contactez-nous</a> pour les autres formules.</p>
+				</noscript>
+				<SecurityPartner variant="reminder" />
+			</div>
+		</section>
+
+		<section class="section on-demand" id="sur-demande">
+			<div class="site-container on-demand__layout">
+				<div>
+					<SectionHeading
+						eyebrow="Hors forfait"
+						title="Le pack Sur demande."
+						intro="Pour une intervention ponctuelle, avec ou sans forfait de maintenance. Facturation à la demande, sans engagement, décompte par tranche de 15 minutes."
+					/>
+					<ul class="on-demand__packs" aria-label="Tarifs du pack Sur demande">
+						{ON_DEMAND.packs.map((pack) => (
+							<li class="on-demand__pack">
+								<span class="on-demand__hours">{pack.hours}&nbsp;{pack.hours > 1 ? 'heures' : 'heure'}</span>
+								<strong>{formatPrice(pack.price)}</strong>
+								{pack.hours > 1 && <span class="muted">soit {formatPrice(pack.price / pack.hours)} de l'heure</span>}
+							</li>
+						))}
+					</ul>
+				</div>
+				<div class="on-demand__coverage">
+					<h3>Ce que couvre le pack</h3>
+					<ul>
+						{ON_DEMAND.coverage.map((item) => <li>{item}</li>)}
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="section section--night maintenance-cta">
+			<div class="site-container maintenance-cta__inner">
+				<h2>Une question sur la formule adaptée&nbsp;?</h2>
+				<p>Nous regardons votre site avec vous et vous conseillons le niveau de suivi juste, sans surdimensionner.</p>
+				<Button variant="light" href="/contact">Parlons de votre site <span aria-hidden="true">&rarr;</span></Button>
+			</div>
+		</section>
+	</main>
+</SiteLayout>

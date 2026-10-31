@@ -1,0 +1,16 @@
+---
+import Button from '../components/Button.astro';
+import ContactStatus from '../components/ContactStatus.astro';
+---
+<ContactStatus
+	title="Page introuvable | Z&L ScaleTech"
+	description="Cette page n'existe pas ou a été déplacée."
+	eyebrow="Erreur 404"
+	heading="Cette page s'est envolée."
+>
+	<p>Elle n'existe pas ou a été déplacée. Le dragon veille sur le reste du site : vous y retrouverez tout ce qu'il vous faut.</p>
+	<Fragment slot="actions">
+		<Button href="/">Retour à l'accueil</Button>
+		<Button variant="secondary" href="/offres">Voir nos offres</Button>
+	</Fragment>
+</ContactStatus>

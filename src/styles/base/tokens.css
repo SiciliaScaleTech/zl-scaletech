@@ -1,0 +1,21 @@
+/* Design tokens : couleurs, espacements, rayons, ombres */
+
+:root {
+	--color-aubergine: #4a1942;
+	--color-violet: #5b1aa0;
+	--color-violet-dark: #431277;
+	--color-night: #0e0020;
+	--color-sand: #f6f1e7;
+	--color-cream: #fdfbf7;
+	--color-white: #ffffff;
+	--color-gold: #e0b44c;
+	--color-muted: #5e5268;
+	--content-width: 72rem;
+	--space-section: clamp(4.5rem, 9vw, 8rem);
+	--space-gutter: clamp(1.25rem, 4vw, 4rem);
+	--radius-sm: 0.5rem;
+	--radius-md: 1rem;
+	--radius-lg: 1.5rem;
+	--shadow-soft: 0 1rem 3rem rgb(14 0 32 / 0.08);
+	--shadow-deep: 0 1.5rem 4rem rgb(14 0 32 / 0.22);
+}

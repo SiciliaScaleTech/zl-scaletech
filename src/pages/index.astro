@@ -1,0 +1,293 @@
+---
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+import SecurityPartner from '../components/SecurityPartner.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import SiteTypeSwitch from '../components/SiteTypeSwitch.astro';
+import { OFFERS, offerPrice, type OfferVariant, type SiteType } from '../data/offres';
+import { MAINTENANCE_PREVIEW } from '../data/maintenance';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { safeJson } from '../utils/safe-json';
+import { getCollection, render } from 'astro:content';
+
+// FAQ : une question par fichier Markdown dans src/content/faq, triées par « order ».
+const faqEntries = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order);
+const faq = await Promise.all(faqEntries.map(async (entry) => ({ entry, Content: (await render(entry)).Content })));
+
+// Données structurées FAQPage : réponses en texte brut (liens Markdown réduits à leur libellé).
+const faqSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'FAQPage',
+	mainEntity: faqEntries.map((entry) => ({
+		'@type': 'Question',
+		name: entry.data.question,
+		acceptedAnswer: {
+			'@type': 'Answer',
+			text: (entry.body ?? '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').trim(),
+		},
+	})),
+};
+---
+
+<SiteLayout title="Création de site internet pour artisans et PME | Z&L ScaleTech" description="Création de site internet, accompagnement sur mesure et maintenance pour les PME et entreprises artisanales en France.">
+	<main>
+		<section class="hero section section--night">
+			<div class="site-container hero-grid">
+				<div class="hero-copy">
+					<p class="eyebrow">Agence web des artisans &amp; des PME</p>
+					<h1>Artisans, votre <span class="whitespace-nowrap">savoir-faire</span> mérite un site à sa hauteur.</h1>
+					<p class="hero-text">Z&amp;L ScaleTech conçoit des sites internet premium pour les PME et entreprises artisanales, avec un suivi réel après la livraison pour sécuriser la performance, les conversions et la confiance.</p>
+					<div class="hero-actions">
+						<Button href="/contact">Demander un devis</Button>
+						<Button variant="light" href="/a-propos">Découvrir notre méthode</Button>
+					</div>
+					<ul class="hero-points" aria-label="Atouts de l'agence">
+						<li>Site rapide, conçu pour vous apporter des demandes de devis</li>
+						<li>1 mois de support offert après la livraison</li>
+						<li>Un design soigné, adapté à votre métier</li>
+					</ul>
+				</div>
+
+				<aside class="hero-panel" aria-label="Résumé des offres">
+					<div class="panel-header">
+						<p class="eyebrow">Ce que vous gagnez</p>
+						<h2>Votre site,<br />sous bonne<br />garde.</h2>
+					</div>
+					<div class="panel-list">
+						<div>
+							<span class="stat">2 à 8</span>
+							<p>semaines de mise en ligne</p>
+						</div>
+						<div>
+							<span class="stat">100%</span>
+							<p>site pensé pour votre métier</p>
+						</div>
+						<div>
+							<span class="stat">+1</span>
+							<p>partenaire après la livraison</p>
+						</div>
+					</div>
+				</aside>
+			</div>
+		</section>
+
+		<section class="method section section--sand" id="methode">
+			<div class="site-container method-grid">
+				<div class="method-intro">
+					<SectionHeading
+						eyebrow="Notre façon de travailler"
+						title="Le même soin que vous mettez dans votre travail."
+						intro="Chaque projet avance avec une méthode simple : comprendre votre métier, construire le bon site et rester présent quand il est en ligne."
+					/>
+					<a class="text-link" href="/a-propos">Découvrir notre méthode <span aria-hidden="true">&rarr;</span></a>
+				</div>
+
+				<div class="method-steps" aria-label="Les étapes de notre accompagnement">
+					<Card>
+						<span class="method-step-number">01</span>
+						<h3>Écouter avant de construire</h3>
+						<p>Nous prenons le temps de comprendre votre métier, vos priorités et ce que vos clients doivent retenir en quelques secondes.</p>
+					</Card>
+					<Card>
+						<span class="method-step-number">02</span>
+						<h3>Travailler dans les règles de l'art</h3>
+						<p>Nous créons un site soigné et un parcours simple, pensés pour inspirer confiance et donner envie de vous contacter.</p>
+					</Card>
+					<Card>
+						<span class="method-step-number">03</span>
+						<h3>Accompagner après la mise en ligne</h3>
+						<p>Vous gardez un partenaire disponible pour faire évoluer, sécuriser et améliorer votre site dans le temps.</p>
+					</Card>
+				</div>
+			</div>
+
+			<div class="site-container value-strip">
+				<div>
+					<p class="eyebrow">Ce que nous pouvons vous apporter</p>
+					<h2>Un site qui travaille pendant que vous êtes à l'atelier ou sur le chantier.</h2>
+				</div>
+				<ul>
+					<li>Une présence crédible qui met en valeur votre savoir-faire</li>
+					<li>Un parcours simple qui guide vos futurs clients jusqu'à vous</li>
+					<li>Un suivi humain quand vos besoins évoluent</li>
+				</ul>
+			</div>
+		</section>
+
+		<section class="offers section" id="offres">
+			<div class="site-container site-type-scope">
+				<SectionHeading
+					eyebrow="Nos offres"
+					title="Des offres pour chaque artisan, du premier client à l'entreprise installée."
+					intro="Des formats clairs pour démarrer au bon niveau, avec un accompagnement qui reste présent après la mise en ligne."
+				/>
+				<div class="offers-switch">
+					<SiteTypeSwitch name="accueil-offres-type" />
+				</div>
+
+				<div class="offer-grid">
+					{OFFERS.map((offer) => (
+						<Card tone={offer.only ? 'night' : 'light'} data-site={offer.only}>
+							<div class="offer-card-top">
+								<span class="offer-label">{offer.label}</span>
+								<h3>Offre {offer.name}</h3>
+								{offer.featured && <span class="offer-badge">Conseillé</span>}
+							</div>
+							{(Object.entries(offer.variants) as [SiteType, OfferVariant][]).map(([type, variant]) => (
+								<div class="offer-variant" data-site={offer.only ? undefined : type}>
+									<span class="offer-price">
+										<strong>{variant.price === null ? 'Sur devis' : <><span>À partir de</span> <b>{offerPrice(variant)}</b></>}</strong>
+									</span>
+									<p>{variant.teaser}</p>
+								</div>
+							))}
+							{offer.condition && <p class="offer-condition">{offer.condition}</p>}
+							<a class="text-link" href={`/offres#${offer.id}`}>Voir le détail <span aria-hidden="true">&rarr;</span></a>
+						</Card>
+					))}
+				</div>
+
+				<div class="offers-footer">
+					<p>Vous hésitez entre plusieurs formats ? Nous vous aidons à choisir le niveau juste pour votre projet.</p>
+					<Button variant="secondary" href="/offres">Comparer les offres <span aria-hidden="true">&rarr;</span></Button>
+				</div>
+			</div>
+		</section>
+
+		<section class="maintenance-preview section section--night" id="maintenance">
+			<div class="site-container site-type-scope">
+				<div class="maintenance-heading">
+					<SectionHeading
+						eyebrow="Maintenance"
+						title="Un site suivi, pas simplement livré."
+						intro="Un bon artisan ne disparaît pas une fois le travail livré. Nous non plus. Composez votre formule et voyez le prix en direct sur la page Maintenance. Tarifs hors taxes."
+					/>
+					<Button variant="light" href="/maintenance">Voir la maintenance <span aria-hidden="true">&rarr;</span></Button>
+				</div>
+				<div class="maintenance-switch">
+					<SiteTypeSwitch name="accueil-maintenance-type" />
+				</div>
+
+				<div class="maintenance-grid" aria-label="Aperçu des forfaits de maintenance">
+					<Card tone="night">
+						<span class="maintenance-plan-label">Pour démarrer</span>
+						<h3>Starter Entrepreneur</h3>
+						{MAINTENANCE_PREVIEW.sites.map((site) => (
+							<strong class="maintenance-range" data-site={site.id}><span>Dès</span> {site.starter} <span>/ mois</span></strong>
+						))}
+						<p class="maintenance-note">Sans engagement.<span data-site="e-commerce"> 1re année de maintenance, ou boutique jusqu’à 10&nbsp;produits.</span></p>
+					</Card>
+					<Card tone="night">
+						<span class="maintenance-plan-label">Pour rester serein</span>
+						<h3>Sérénité</h3>
+						{MAINTENANCE_PREVIEW.sites.map((site) => (
+							<div class="maintenance-variant" data-site={site.id}>
+								<strong class="maintenance-range"><span>Dès</span> {site.serenite} <span>/ mois</span></strong>
+								<p class="maintenance-note">Ou {site.yearly}&nbsp;/&nbsp;an : 2 mois offerts.</p>
+							</div>
+						))}
+					</Card>
+					<Card tone="night">
+						<span class="maintenance-plan-label">Hors forfait</span>
+						<h3>Sur demande</h3>
+						<strong class="maintenance-range"><span>Dès</span> {MAINTENANCE_PREVIEW.onDemand.price} <span>/ heure</span></strong>
+						<p class="maintenance-note">Packs de 10 et 20 heures, décompte au quart d'heure.</p>
+					</Card>
+				</div>
+
+				<SecurityPartner />
+			</div>
+		</section>
+
+		<section class="faq-preview section section--sand" id="faq">
+			<div class="site-container faq-layout">
+				<div class="faq-intro">
+					<SectionHeading
+						eyebrow="Questions fréquentes"
+						title="Les réponses avant de commencer."
+						intro="Un chantier avance mieux quand le cadre est clair. Voici les questions qui reviennent le plus souvent."
+					/>
+					<Button variant="secondary" href="/contact">Parlons de votre projet <span aria-hidden="true">&rarr;</span></Button>
+				</div>
+
+				<div class="faq-list">
+					{faq.map(({ entry, Content }, index) => (
+						<details open={index === 0}>
+							<summary>{entry.data.question}</summary>
+							<div class="faq-answer"><Content /></div>
+						</details>
+					))}
+				</div>
+				<script is:inline type="application/ld+json" set:html={safeJson(faqSchema)} />
+			</div>
+		</section>
+
+		<section class="work-preview section" id="realisations">
+			<div class="site-container">
+				<SectionHeading
+					eyebrow="Réalisations"
+					title="Du travail soigné, à voir en vrai."
+					intro="Chaque réalisation part d'un besoin concret : mieux présenter un savoir-faire, rendre une offre plus lisible ou créer un site vraiment singulier."
+				/>
+
+				<div class="work-grid">
+					<article class="work-card work-card--violet">
+						<div class="work-card-visual">
+							<img src="/assets/realisations/cyber-hero.png" alt="Visuel principal du site Z&L CyberConsulting" loading="lazy" />
+							<img class="work-card-logo" src="/assets/realisations/cyber-logo.webp" alt="Logo Z&L CyberConsulting" loading="lazy" />
+							<span aria-hidden="true">01</span>
+						</div>
+						<div class="work-card-content">
+							<p class="work-card-meta">Z&L CyberConsulting · Site vitrine</p>
+							<h3>Rendre une expertise immédiatement lisible.</h3>
+							<p>Une présence éditoriale structurée pour présenter les enjeux de cybersécurité avec clarté et installer la confiance dès le premier regard.</p>
+							<a class="work-card-link" href="https://zl-cyberconsulting.fr" target="_blank" rel="noopener noreferrer">Visiter le site <span aria-hidden="true">&rarr;</span></a>
+						</div>
+					</article>
+
+					<article class="work-card work-card--gold">
+						<div class="work-card-visual">
+							<img src="/assets/realisations/couverture-hero.png" alt="Visuel principal du site J&J Couverture" loading="lazy" />
+							<img class="work-card-logo" src="/assets/realisations/couverture-logo.png" alt="Logo J&J Couverture" loading="lazy" />
+							<span aria-hidden="true">02</span>
+						</div>
+						<div class="work-card-content">
+							<p class="work-card-meta">J&J Couverture · Refonte</p>
+							<h3>Faire passer la bonne information au bon moment.</h3>
+							<p>Une architecture plus directe et des appels à l'action mieux placés pour guider les particuliers dans leur projet de toiture.</p>
+							<a class="work-card-link" href="https://jjcouverture.com" target="_blank" rel="noopener noreferrer">Visiter le site <span aria-hidden="true">&rarr;</span></a>
+						</div>
+					</article>
+
+					<article class="work-card work-card--aubergine">
+						<div class="work-card-visual" aria-hidden="true"><span>03</span></div>
+						<div class="work-card-content">
+							<p class="work-card-meta">Sur mesure · Identité</p>
+							<h3>Donner une forme unique à une ambition.</h3>
+							<p>Un univers conçu autour de l'activité, avec une interface qui assume sa différence sans perdre en clarté.</p>
+						</div>
+					</article>
+				</div>
+
+				<div class="work-footer">
+					<p>Votre projet pourrait être le prochain à prendre forme ici.</p>
+					<Button variant="secondary" href="/contact">Parler de votre projet <span aria-hidden="true">&rarr;</span></Button>
+				</div>
+			</div>
+		</section>
+
+		<section class="final-cta section section--night" aria-labelledby="final-cta-title">
+			<div class="site-container final-cta-inner">
+				<div class="final-cta-copy">
+					<p class="eyebrow">Un projet en tête ?</p>
+					<h2 id="final-cta-title">Construisons la suite, ensemble.</h2>
+					<p>Parlez-nous de votre métier, de vos objectifs et de ce que votre futur site doit rendre possible. Nous vous répondrons avec une première direction claire.</p>
+				</div>
+				<div class="final-cta-action">
+					<Button variant="light" href="/contact">Demander un devis <span aria-hidden="true">&rarr;</span></Button>
+					<p>Un premier échange, sans engagement.</p>
+				</div>
+			</div>
+		</section>
+	</main>
+</SiteLayout>
