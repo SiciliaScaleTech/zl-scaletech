@@ -1,3 +1,4 @@
+import { writeFile } from 'node:fs/promises';
 import sharp from 'sharp';
 
 const input = 'Design/LogoScaletechtest.png';
@@ -27,6 +28,30 @@ await Promise.all([
 	exportLogo(64, '-sm'),
 	exportLogo(128, '-sm@2x'),
 	sourceImage(128).png({ compressionLevel: 9 }).toFile(`${outputDirectory}/favicon.png`),
+	// Icône déclarée pour Google : taille multiple de 48 px.
+	sourceImage(192).png({ compressionLevel: 9 }).toFile(`${outputDirectory}/icon-192.png`),
+	// Icône d'écran d'accueil iOS : fond plein (iOS remplace la transparence par du noir).
+	sourceImage(180).flatten({ background: '#fdfbf7' }).png({ compressionLevel: 9 }).toFile('public/apple-touch-icon.png'),
 ]);
+
+// favicon.ico à la racine : conteneur ICO avec des images PNG 16, 32 et 48 px.
+const icoSizes = [16, 32, 48];
+const pngs = await Promise.all(icoSizes.map((size) => sourceImage(size).png({ compressionLevel: 9 }).toBuffer()));
+const header = Buffer.alloc(6 + 16 * pngs.length);
+header.writeUInt16LE(0, 0); // réservé
+header.writeUInt16LE(1, 2); // type : icône
+header.writeUInt16LE(pngs.length, 4);
+let offset = header.length;
+pngs.forEach((png, i) => {
+	const entry = 6 + 16 * i;
+	header.writeUInt8(icoSizes[i], entry); // largeur
+	header.writeUInt8(icoSizes[i], entry + 1); // hauteur
+	header.writeUInt16LE(1, entry + 4); // plans
+	header.writeUInt16LE(32, entry + 6); // bits par pixel
+	header.writeUInt32LE(png.length, entry + 8);
+	header.writeUInt32LE(offset, entry + 12);
+	offset += png.length;
+});
+await writeFile('public/favicon.ico', Buffer.concat([header, ...pngs]));
 
 console.log('Logo medallions generated from the original PNG.');

@@ -38,7 +38,10 @@ const organizationSchema = {
 <meta name="theme-color" content="#4a1942" />
 <link rel="preload" href={frauncesUrl} as="font" type="font/woff2" crossorigin />
 <link rel="preload" href={interUrl} as="font" type="font/woff2" crossorigin />
-<link rel="icon" type="image/png" sizes="128x128" href="/assets/brand/favicon.png" />
+<!-- Icônes : favicon.ico (16/32/48 px), PNG 192 px pour Google (multiple de 48 px), icône iOS 180 px. -->
+<link rel="icon" href="/favicon.ico" sizes="48x48" />
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/icon-192.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <meta name="generator" content={Astro.generator} />
 <link rel="canonical" href={canonicalURL} />
