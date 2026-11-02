@@ -7,7 +7,7 @@
  * - POST uniquement, contrôle de l'origine de la requête (anti-CSRF) ;
  * - pot de miel anti-spam ;
  * - limitation par IP et plafond global quotidien (anti-bombardement d'e-mails),
- *   compteurs verrouillés et stockés hors de public_html ;
+ *   compteurs verrouillés et stockés hors des dossiers web ;
  * - IP jamais stockée en clair : HMAC-SHA256 avec une clé secrète propre au serveur ;
  * - validation stricte de chaque champ ; type de projet et offre vérifiés contre
  *   la liste générée au build (contact-options.json) ;
@@ -49,7 +49,7 @@ function single_line(string $value): string
 	return trim((string) preg_replace('/[\x00-\x1F\x7F]+/u', ' ', $value));
 }
 
-/** Dossier privé des compteurs (hors public_html), créé au besoin avec des droits restreints. */
+/** Dossier privé des compteurs (hors des dossiers web), créé au besoin avec des droits restreints. */
 function storage_dir(array $config): string
 {
 	$dir = (string) $config['storage_dir'];

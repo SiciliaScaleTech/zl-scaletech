@@ -1,6 +1,6 @@
 # =====================================================================
 # Z&L ScaleTech : configuration Apache (o2switch)
-# Copié à la racine de public_html avec le contenu de /dist.
+# Copié à la racine du dossier du site (/home/<compte>/zl-scaletech.fr) avec le contenu de /dist.
 # =====================================================================
 
 Options -Indexes -MultiViews
