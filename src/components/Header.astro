@@ -8,10 +8,11 @@ const offersActive = /^\/(offres|maintenance)(\/|$)/.test(Astro.url.pathname);
 
 <header class="site-header">
 	<div class="site-container header-inner">
-		<a class="brand" href="/" aria-label="Retour à l'accueil">
+		<!-- Le nom lu par les lecteurs d'écran reprend le texte visible (WCAG 2.5.3) ; le logo est décoratif. -->
+		<a class="brand" href="/" aria-label={`${SITE_TITLE}, retour à l'accueil`}>
 			<picture>
-				<source type="image/webp" srcset="/assets/brand/logo-medallion.webp 1x, /assets/brand/logo-medallion@2x.webp 2x" />
-				<img src="/assets/brand/logo-medallion.png" srcset="/assets/brand/logo-medallion.png 1x, /assets/brand/logo-medallion@2x.png 2x" width="52" height="52" alt={SITE_TITLE} />
+				<source type="image/webp" srcset="/assets/brand/logo-medallion-sm.webp 1x, /assets/brand/logo-medallion-sm@2x.webp 2x" />
+				<img src="/assets/brand/logo-medallion-sm.png" srcset="/assets/brand/logo-medallion-sm.png 1x, /assets/brand/logo-medallion-sm@2x.png 2x" width="52" height="52" alt="" />
 			</picture>
 			<span class="brand-wordmark"><span class="brand-wordmark-prefix">Z&amp;L</span> <strong>ScaleTech</strong></span>
 		</a>
