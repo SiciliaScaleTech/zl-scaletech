@@ -23,6 +23,9 @@ const exportLogo = async (size, suffix) => {
 await Promise.all([
 	exportLogo(512, ''),
 	exportLogo(1024, '@2x'),
+	// Petites versions pour l'en-tête et le pied de page (affichées en 52 px).
+	exportLogo(64, '-sm'),
+	exportLogo(128, '-sm@2x'),
 	sourceImage(128).png({ compressionLevel: 9 }).toFile(`${outputDirectory}/favicon.png`),
 ]);
 
