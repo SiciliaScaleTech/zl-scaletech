@@ -59,7 +59,8 @@ ErrorDocument 404 /404.html
 	Header always set Cross-Origin-Resource-Policy "same-origin"
 	Header always set X-Permitted-Cross-Domain-Policies "none"
 	# HSTS : le navigateur n'utilise plus que HTTPS pendant 1 an (envoyé uniquement en HTTPS).
-	Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" "expr=%{HTTPS} == 'on'"
+	# Sans includeSubDomains : webmail, cpanel, ftp… n'ont pas tous un certificat valide chez o2switch.
+	Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
 	Header always unset X-Powered-By
 	Header unset X-Powered-By
 </IfModule>
